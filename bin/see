@@ -1,0 +1,76 @@
+#!/bin/zsh
+set -e
+
+if [[ $# != 1 ]]; then
+	echo "Usage: $0 <file>" >&2
+	exit 1
+fi
+
+error()
+{
+	echo $1 >&2
+	notify-send $1
+	exit 1
+}
+
+unhandled() { error "No handler for $1 (in $PWD)" }
+
+arg=$1
+if [[ $arg =~ '^(\w+)://' ]]; then
+	case $match[1] in
+		http(|s))
+			exec ${=BROWSER:-firefox} $arg
+			;;
+		file)
+			arg=$arg[8,-1]
+			;;
+		*)
+			unhandled $arg
+			;;
+	esac
+fi
+
+if [[ ! -e $arg ]]; then
+	error "No such file or directory $arg (in $PWD)"
+fi
+
+mime=$(file -Lb --mime-type $arg)
+case $mime in
+	application/(pdf|postscript)) ;&
+	image/vnd.djvu)
+		exec zathura $arg
+		#exec llpp $arg
+		;;
+	application/epub+zip)
+		#exec FBReader $arg
+		exec llpp $arg
+		;;
+	image/(|x-(|*-))(bmp|gif|jp(|e)g|png|tiff))
+		#exec sxiv -a $arg
+		exec feh $arg
+		;;
+	image/svg+xml)
+		exec inkview $arg
+		;;
+	audio/*) ;&
+	video/*)
+		exec mpv --force-window $arg
+		;;
+	application/(msword|vnd.ms-(excel|powerpoint)))
+		exec libreoffice $arg
+		;;
+	text/html)
+		exec ${=BROWSER:-firefox} $arg
+		;;
+esac
+
+case $arg:e:l in
+	wav|flac|mp3|ogg|wmw|tta|wv)
+		exec mpv --force-window $arg
+		;;
+	torrent)
+		exec transmission-gtk $arg
+		;;
+esac
+
+unhandled $arg

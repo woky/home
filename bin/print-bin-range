@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+bits=$1
+max=$((2**bits))
+n=0
+
+dfmt="%${#max}d "
+xfmt="%0$(((bits-1)/4+1))X "
+bfmt="%${bits}s\n"
+
+while [[ $n -lt $max ]]; do
+	printf $dfmt $n
+	printf $xfmt $n
+	printf $bfmt $(echo "obase=2;$n"|bc)|sed 's/ /0/g'
+	n=$((n+1))
+done

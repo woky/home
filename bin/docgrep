@@ -1,0 +1,36 @@
+#!/bin/zsh
+set -e
+
+if [[ $# -lt 2 ]] ; then
+    echo "Usage: $0 [GREP_OPTIONS] PATTERN [FILE...]"
+    exit 1
+fi
+
+grep_opts=()
+while [[ ${1:0:1} == - ]] ; do
+	grep_opts+=($1)
+    shift
+done
+
+pattern=$1
+shift
+
+if [[ $# -gt 1 ]] ; then
+	grep_opts+=(-H)
+fi
+
+for file in "$@" ; do
+	case $file:e:l in
+		pdf)
+			cmd=(pdftotext -layout $file -)
+			;;
+		djvu)
+			cmd=(djvutxt $file)
+			;;
+		*)
+			echo "Unhanled extension of file $file" >&2
+			continue
+			;;
+	esac
+	$cmd | grep $grep_opts --color --label=$file $pattern || :
+done

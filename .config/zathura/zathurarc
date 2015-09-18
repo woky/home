@@ -1,0 +1,15 @@
+set scroll-full-overlap 0.1
+set window-title-basename true
+set window-title-page true
+
+map <BackSpace> scroll half-up
+map <Space> scroll half-down
+map <Left> scroll half-up
+map <Right> scroll half-down
+map h scroll half-up
+map l scroll half-down
+map <PageUp> scroll full-up
+map <PageDown> scroll full-down
+map [ navigate previous
+map ] navigate next
+map i recolor

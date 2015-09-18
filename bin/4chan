@@ -1,0 +1,40 @@
+#!/bin/bash
+
+POLL=
+SLEEP=90
+
+usage()
+{
+	echo "Usage: $0 [-p] [-s time] url..." >&2
+	if [[ -n $1 ]]; then
+		echo $1 >&2
+	fi
+	exit 1
+}
+
+get_images()
+{
+	wget -H -nd -D i.4cdn.org -r -l 1 -U Mozilla -A jpg,png,gif \
+		-R "*s.jpg,*s.png" -nv -nc -w 3 --random-wait -e robots=off $@
+}
+
+while getopts "ps:" opt; do
+	case $opt in
+		p)	POLL=y ;;
+		s)	SLEEP=$OPTARG ;;
+		\?)	usage "Invalid option: -$OPTARG" ;;
+		:)	usage "Option -$OPTARG requires an argument" ;;
+	esac
+done
+
+shift $((OPTIND-1))
+
+if [[ $# -eq 0 ]]; then
+	usage
+fi
+
+get_images $@
+while [[ -n $POLL ]]; do
+	get_images $@
+	sleep $SLEEP
+done

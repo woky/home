@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+if [[ $# -ne 1 ]]; then
+	echo "Usage: $0 HH:MM"
+	exit 1
+fi
+
+now=$(date +%s)
+later=$(date -d"$1" +%s)
+if [[ $later -lt $now ]]; then
+	later=$((later + 86400))
+fi
+
+date -d@$later +"See you on %d.%m. at %H:%M"
+
+sleep $((later - now))
+playalarm

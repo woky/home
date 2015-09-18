@@ -1,0 +1,6 @@
+#!/bin/zsh
+set -e
+file=$(mktemp ~/tmp/clipscreen-XXXX.png)
+maim -s $file
+print $file
+print -n $file | xclip

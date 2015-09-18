@@ -1,0 +1,27 @@
+#!/bin/zsh
+set -e
+
+if [[ $# -ne 1 ]]; then
+	echo "Usage: $0 file" >&2
+	exit 1
+fi
+
+mime=$(file -Lb --mime-type $1)
+case $mime in
+	text/*)
+		endpoint=upload-text
+		params=(-F lang=Plaintext -F text=@$1)
+		;;
+	image/*)
+		endpoint=upload-image\?simple
+		params=(-F file=@$1)
+		;;
+	*)
+		endpoint=upload-file\?simple
+		params=(-F file=@$1)
+		;;
+esac
+
+curl -w %{redirect_url} $params https://dump.bitcheese.net/$endpoint |\
+	sed -r 's/^(http):/\1s:/'
+echo

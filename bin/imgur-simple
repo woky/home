@@ -1,0 +1,30 @@
+#!/bin/zsh
+set -e
+
+client_id=14cf40b93fada49
+
+if [[ $# -gt 1 ]]; then
+	echo "Usage: $0 [file]" >&2
+	exit 1
+fi
+
+if [[ $# -eq 1 ]]; then
+	exec <$1
+fi
+
+IFS=$'\n' resp=($(
+	curl -H "Authorization: Client-ID $client_id" -F "image=@-" \
+		https://api.imgur.com/3/upload |\
+	jq -r '
+		.success,
+		([(.status | tostring), .data.error] | join(" ")),
+		.data.link,
+		.data.deletehash'))
+
+if [[ $resp[1] == true ]]; then
+	echo ${resp[3]/http:/https:}
+	echo https://imgur.com/delete/$resp[4]
+else
+	echo "ERROR: $resp[2]" >&2
+	exit 1
+fi

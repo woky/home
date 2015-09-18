@@ -1,0 +1,27 @@
+#!/bin/zsh
+set -e -o pipefail
+
+cd ~/opt
+v_local=$(print -l idea-*(/N) | sed -nr 's/idea-([0-9\.]+)$/\1/p' |\
+	sort -rV | head -1)
+idea-latest-eap | read v_remote url
+
+if [[ -n $v_local ]]; then
+	ret=0
+	rpmdev-vercmp $v_remote $v_local >/dev/null || ret=$?
+	if [[ $ret -ne 11 ]]; then
+		echo "Up to date"
+		exit 0
+	fi
+fi
+
+echo "Updating to $url"
+# tar 1.28 has --one-top-level
+mkdir idea-$v_remote
+cd idea-$v_remote
+curl -L $url | tar --strip-components 1 -zxf -
+cd ..
+ln -sf idea-$v_remote idea
+if [[ -n $v_local ]]; then
+	rm -r idea-$v_local
+fi
