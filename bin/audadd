@@ -2,13 +2,13 @@
 use warnings; use strict;
 
 =head1 NAME
-audadd - Adds files to an audio player (e.g. Audacious)
+audadd - Adds files to an audio player
 =head1 DESCRIPTION
 Traverses the directory tree beneath arguments and adds audio files it finds to
 an audio player. CUE files are treated specially.
 =cut
 
-my @ADDCMD = qw(audtool --playlist-addurl);
+my @ADDCMD = qw(qmms -e);
 my @EXT = qw(
 ape
 flac
