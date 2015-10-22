@@ -12,6 +12,8 @@
 (b '(mod4 F12)              "qmmp --next")
 (b '(shift mod4 F11)        "qmmp --seek-bwd 30")
 (b '(shift mod4 F12)        "qmmp --seek-fwd 30")
+(b '(control XF86AudioLowerVolume)  "qmmp --volume-dec")
+(b '(control XF86AudioRaiseVolume)  "qmmp --volume-inc")
 (b '(mod4 c)                "xclip -o|(echo -n '\"'; cat; echo -n '\"')|xclip")
 (b '(XF86AudioMute)         "pactl set-sink-mute 2 toggle")
 (b '(XF86AudioLowerVolume)  "pactl set-sink-volume 2 '-5%'")

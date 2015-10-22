@@ -53,7 +53,8 @@ case $mime in
 		exec inkview $arg
 		;;
 	audio/*) ;&
-	video/*)
+	video/*) ;&
+	application/vnd.rn-realmedia)
 		exec mpv --force-window $arg
 		;;
 	application/(msword|vnd.ms-(excel|powerpoint)))
