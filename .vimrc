@@ -21,17 +21,19 @@ se sw=4
 se ai
 se nojoinspaces
 se tw=80
+se formatoptions+=j
 
 se nowrap
 se laststatus=2
 se showcmd
 se wmnu
-se wim=longest:full,full
+se wim=list:longest,full
 se nu
 se rnu
 se cursorline
 se hls
 se incsearch
+se foldlevelstart=99
 
 se ml
 se hi=1000
@@ -43,6 +45,12 @@ se mouse=a
 " variables {{{
 let NERDTreeChDirMode=2
 let NERDTreeMinimalUI=1
+
+let perl_fold=1
+let xml_syntax_folding=1
+
+let LatexBox_viewer='zathura'
+let LatexBox_quickfix=2
 " }}}
 
 " keys {{{
@@ -76,8 +84,8 @@ nn  <C-j> <C-W>j
 nn  <C-k> <C-W>k
 nn  <C-l> <C-W>l
 
-nn  <F7> :bp<CR>
-nn  <F8> :bn<CR>
+nn  <F5> :bp<CR>
+nn  <F6> :bn<CR>
 nn  <F2> :ls<CR>:b 
 
 nn  <C-PageUp> gT

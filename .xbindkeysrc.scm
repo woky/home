@@ -18,3 +18,4 @@
 (b '(XF86AudioMute)         "pactl set-sink-mute 2 toggle")
 (b '(XF86AudioLowerVolume)  "pactl set-sink-volume 2 '-5%'")
 (b '(XF86AudioRaiseVolume)  "pactl set-sink-volume 2 '+5%'")
+(b '(mod4 KP_Add)           "websearch $(xclip -o)")

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 POLL=
 SLEEP=90
@@ -35,6 +36,6 @@ fi
 
 get_images $@
 while [[ -n $POLL ]]; do
-	get_images $@
 	sleep $SLEEP
+	get_images $@
 done
