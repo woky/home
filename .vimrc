@@ -22,6 +22,7 @@ se ai
 se nojoinspaces
 se tw=80
 se formatoptions+=j
+se bs=2
 
 se nowrap
 se laststatus=2
@@ -55,6 +56,7 @@ let LatexBox_quickfix=2
 
 " keys {{{
 let mapleader='\'
+nm , \
 
 se <S-F1>=[1;2P
 se <S-F2>=[1;2Q
