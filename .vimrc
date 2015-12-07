@@ -4,11 +4,12 @@ se nocp
 " plugins {{{
 call plug#begin('~/.vim.plugged')
 Plug 'LaTeX-Box-Team/LaTeX-Box'
-Plug 'Smart-Tabs'
+"Plug 'Smart-Tabs'
 Plug 'brookhong/cscope.vim'
 Plug 'peaksea'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
+Plug 'google/vim-searchindex'
 call plug#end()
 " }}}
 

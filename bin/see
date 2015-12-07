@@ -16,10 +16,13 @@ error()
 unhandled() { error "No handler for $1 (in $PWD)" }
 
 arg=$1
-if [[ $arg =~ '^(\w+)://' ]]; then
+if [[ $arg =~ '^(\w+):' ]]; then
 	case $match[1] in
 		http(|s))
 			exec ${=BROWSER:-firefox} $arg
+			;;
+		magnet)
+			exec transmission-gtk $arg
 			;;
 		file)
 			arg=$arg[8,-1]
@@ -47,7 +50,8 @@ case $mime in
 		;;
 	image/(|x-(|*-))(bmp|gif|jp(|e)g|png|tiff))
 		#exec sxiv -a $arg
-		exec feh $arg
+		#exec feh $arg
+		exec nomacs $arg
 		;;
 	image/svg+xml)
 		exec inkview $arg
@@ -57,7 +61,8 @@ case $mime in
 	application/vnd.rn-realmedia)
 		exec mpv --force-window $arg
 		;;
-	application/(msword|vnd.ms-(excel|powerpoint)))
+	application/(msword|vnd.ms-(excel|powerpoint))) ;&
+	application/vnd.oasis.opendocument.*)
 		exec libreoffice $arg
 		;;
 	text/html)
@@ -66,7 +71,7 @@ case $mime in
 esac
 
 case $arg:e:l in
-	wav|flac|mp3|ogg|wmw|tta|wv)
+	wav|flac|mp3|ogg|wmw|tta|wv|mpc)
 		exec mpv --force-window $arg
 		;;
 	torrent)
