@@ -1,2 +1,0 @@
-#!/bin/sh
-tr -cd '\40-\176' </dev/urandom|head -c${1-16}
