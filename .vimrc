@@ -10,6 +10,8 @@ Plug 'peaksea'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
 Plug 'google/vim-searchindex'
+Plug 'vim-utils/vim-husk'
+Plug 'lyuts/vim-rtags'
 call plug#end()
 " }}}
 
@@ -95,8 +97,8 @@ nn  <C-PageUp> gT
 nn  <C-PageDown> gt
 nn  <Leader>t :tabnew 
 
-nn  <S-F7> :cp<CR>
-nn  <S-F8> :cn<CR>
+nn  <F7> :cp<CR>
+nn  <F8> :cn<CR>
 
 nn  <Space>p "*p
 nn  <Space>o "+p
@@ -115,6 +117,8 @@ nn  <S-F1> :exe 'NERDTree' getcwd()<CR>
 nn  <Leader>f :NERDTreeFind<CR>
 
 nn  <silent> <Leader>a :let &mouse= !empty(&mouse) ? '' : 'a'<CR>
+nn  Z :exe '!websearch ' . shellescape(expand('<cword>'), 1)<CR><CR>
+nn  y :!echo %:p:S \| xclip<CR><CR>
 " }}}
 
 com! -bar SudoW sil exe "w !sudo tee % >/dev/null" | sil e!

@@ -20,3 +20,5 @@
 (b '(XF86AudioRaiseVolume)  "pactl set-sink-volume 2 '+5%'")
 (b '(mod4 KP_Add)           "websearch $(xclip -o)")
 (b '(mod4 z)                "websearch $(xclip -o)")
+(b '(mod4 Prior)            "xclip -d :7 -o|xclip")
+(b '(mod4 Next)             "xclip -o|xclip -d :7")
