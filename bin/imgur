@@ -2,17 +2,13 @@
 set -e
 
 log_file=~/.imgur.log
-max_log_entries=1000
 
 urls=($(imgur-simple $@))
 
 print -l $urls
 
+print $urls >>$log_file
+
 if [[ -n $DISPLAY ]]; then
 	print -n $urls[1] | xclip
 fi
-
-if [[ -f $log_file && $(wc -l <$log_file) -ge $max_log_entries ]]; then
-	mv $log_file{,.old}
-fi
-print $urls >>$log_file

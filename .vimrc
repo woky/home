@@ -4,7 +4,7 @@ se nocp
 " plugins {{{
 call plug#begin('~/.vim.plugged')
 Plug 'LaTeX-Box-Team/LaTeX-Box'
-"Plug 'Smart-Tabs'
+Plug 'dpc/vim-smarttabs'
 Plug 'brookhong/cscope.vim'
 Plug 'peaksea'
 Plug 'scrooloose/nerdtree'
@@ -12,11 +12,14 @@ Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
 Plug 'google/vim-searchindex'
 Plug 'vim-utils/vim-husk'
 Plug 'lyuts/vim-rtags'
+Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 " }}}
 
 filetype plugin indent on
 syntax on
+
+ru! ftplugin/man.vim
 
 " options {{{
 se ts=4
@@ -54,7 +57,7 @@ let perl_fold=1
 let xml_syntax_folding=1
 
 let LatexBox_viewer='zathura'
-let LatexBox_quickfix=2
+let LatexBox_quickfix=3
 " }}}
 
 " keys {{{

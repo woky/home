@@ -34,8 +34,8 @@ if [[ $# -eq 0 ]]; then
 	usage
 fi
 
-get_images $@
+get_images "$@"
 while [[ -n $POLL ]]; do
 	sleep $SLEEP
-	get_images $@
+	get_images "$@"
 done
