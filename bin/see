@@ -1,6 +1,8 @@
 #!/bin/zsh
 set -e
 
+h_mpv() { exec mpv --no-terminal --force-window $1 }
+
 if [[ $# != 1 ]]; then
 	echo "Usage: $0 <file>" >&2
 	exit 1
@@ -21,9 +23,6 @@ if [[ $arg =~ '^(\w+):' ]]; then
 		http(|s)|ftp)
 			exec ${=BROWSER:-firefox} $arg
 			;;
-		magnet)
-			exec transmission-gtk $arg
-			;;
 		file)
 			arg=$arg[8,-1]
 			;;
@@ -39,14 +38,16 @@ fi
 
 mime=$(file -Lb --mime-type $arg)
 case $mime in
-	application/(pdf|postscript)) ;&
+	application/pdf)
+		#exec llpp $arg
+		exec zathura $arg
+		;;
+	application/postscript) ;&
 	image/vnd.djvu)
 		exec zathura $arg
-		#exec llpp $arg
 		;;
 	application/epub+zip)
-		#exec FBReader $arg
-		exec llpp $arg
+		exec ebook-viewer $arg
 		;;
 	image/(|x-(|*-))(bmp|gif|jp(|e)g|png|tiff))
 		#exec sxiv -a $arg
@@ -59,7 +60,7 @@ case $mime in
 	audio/*) ;&
 	video/*) ;&
 	application/vnd.rn-realmedia)
-		exec mpv --force-window $arg
+		h_mpv $arg
 		;;
 	application/(msword|vnd.ms-(excel|powerpoint))) ;&
 	application/vnd.oasis.opendocument.*)
@@ -72,13 +73,13 @@ esac
 
 case $arg:e:l in
 	wav|flac|mp3|ogg|wmw|tta|wv|mpc)
-		exec mpv --force-window $arg
-		;;
-	torrent)
-		exec transmission-gtk $arg
+		h_mpv $arg
 		;;
 	(doc|xls|ppt)(|x))
 		exec libreoffice $arg
+		;;
+	epub|mobi)
+		exec ebook-viewer $arg
 		;;
 esac
 

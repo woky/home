@@ -1,73 +1,77 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import array
-import getpass
 import os
 import os.path
-import pylast
+import sys
 import re
-from configobj import ConfigObj
-from os.path import expanduser
-from sys import argv
+import getpass
+from textwrap import dedent
 
-CONF_FILE = expanduser("~/.config/fmlove.conf")
-SESSKEY_FILE = expanduser("~/.config/fmlove.sess")
-METHODS_RE = re.compile("^(?:un)?(?:love|ban)$")
+import pylast
+from configobj import ConfigObj
+
+config_file = os.path.join(
+        os.environ.get('XDG_CONFIG_HOME') or os.path.expanduser('~/.config'),
+        'fmlove.conf')
+methods_re = re.compile('^(?:np|(?:un)?(?:love|ban))$')
+api_auth = {
+    'api_key': 'fdaa08f45c7ac5fd3ee4d949465fb237',
+    'api_secret': '07a9056a8855568b61727a231a80611b'}
 
 def usage():
-	exit("Usage: %s love|unlove|ban|unban" % argv[0])
+    sys.exit(dedent('''
+    Usage:
+      {0}
+          If run from a terminal without arguments and the configuration file
+          doesn't exist, prompt for Last.fm credentials and initialize the
+          configuration file.
+          The configuration file is "{1}".
+      {0} np|love|unlove|ban|unban
+          If a track is being played, mark it appropriately (except for np)
+          and print it, or exit with status code 2.
+    ''').strip().format(sys.argv[0], config_file))
 
-if len(argv) < 2:
-	usage()
-if not METHODS_RE.match(argv[1]):
-	usage()
+def init():
+    os.umask(0o077)
+    os.makedirs(os.path.dirname(config_file), exist_ok = True)
 
-method = 'track.' + argv[1]
+    username = input('Last.fm username: ')
+    passmd5 = pylast.md5(getpass.getpass(
+        'Password for Last.fm user "%s": ' % username))
 
-config = ConfigObj(CONF_FILE)
-apikey = config['apikey']
-secret = config['secret']
-user = config['user']
+    lastfm = pylast.LastFMNetwork(username=username,
+            password_hash=passmd5, **api_auth)
+    sesskey = lastfm._get_ws_auth()[2]
 
-def rate(lastfm):
-	u = lastfm.get_user(user)
-	t = u.get_now_playing()
-	print(t)
-	if not t is None:
-		t._request(method)
+    config = ConfigObj(config_file)
+    config['username'] = username
+    config['sessionkey'] = sesskey
+    config.write()
 
-done = False
+def serve(action):
+    config = ConfigObj(config_file)
+    username = config['username']
+    sesskey = config['sessionkey']
 
-if os.path.exists(SESSKEY_FILE):
-	with open(SESSKEY_FILE) as f:
-		sesskey = f.read()
-	try:
-		lastfm = pylast.LastFMNetwork(
-				api_key = apikey,
-				api_secret = secret,
-				session_key = sesskey)
-		rate(lastfm)
-		done = True
-	except pylast.WSError as e:
-		if e.get_id == pylast.STATUS_INVALID_SK:
-			os.remove(SESSKEY_FILE)
-		else:
-			raise e
+    lastfm = pylast.LastFMNetwork(session_key=sesskey, **api_auth)
+    u = lastfm.get_user(username)
+    t = u.get_now_playing()
 
-if not done:
-	if 'passmd5' in config:
-		passmd5 = config['passmd5']
-	else:
-		passmd5 = pylast.md5(getpass.getpass(
-			"Password for Last.fm user '%s': " % user))
-	lastfm = pylast.LastFMNetwork(
-			api_key = apikey,
-			api_secret = secret,
-			username = user,
-			password_hash = passmd5)
-	rate(lastfm)
-	(_, _, sesskey) = lastfm._get_ws_auth()
-	with open(SESSKEY_FILE, 'w') as f:
-		f.write(sesskey)
-	os.chmod(SESSKEY_FILE, 0600)
+    if t:
+        if action != 'np':
+            t._request('track.' + action)
+        print(t)
+    else:
+        sys.exit(2)
 
+if __name__ == '__main__':
+    if os.path.isfile(config_file):
+        if len(sys.argv) == 2 and methods_re.match(sys.argv[1]):
+            serve(sys.argv[1])
+        else:
+            usage()
+    elif len(sys.argv) == 1 and sys.stdout.isatty():
+        init()
+    else:
+        print("ERROR: The configuration file doesn't exist.", file=sys.stderr)
+        usage()

@@ -1,0 +1,138 @@
+#!/usr/bin/env perl
+use warnings; use strict;
+use v5.16;
+use Term::ReadKey;
+
+unless (@ARGV >= 2) {
+	say STDERR "Usage: $0 result_file option_spec+";
+	say STDERR "  option_spec := name:key(,key)*(:desc)?";
+	exit 1;
+}
+
+# for key names shown in dialog
+my %keylabels_by_chars = (
+	'' => 'Esc',
+	"\x{a}" => 'Ret',
+	"\x{d}" => 'Ret',
+);
+
+# for key names usable on command line
+my %chars_by_keyspecs = (
+	'esc' => '',
+	'ret' => '',
+	'comma' => ',',
+);
+
+sub get_char_by_keyspec($) {
+	my $keyspec = shift;
+	my $char = $keyspec;
+	if (exists $chars_by_keyspecs{lc $keyspec}) {
+		$char = $chars_by_keyspecs{lc $keyspec};
+	}
+	return $char;
+}
+
+sub get_keylabel_by_char($) {
+	my $char = shift;
+	my $keylabel = $char;
+	if (exists $keylabels_by_chars{$char}) {
+		$keylabel = $keylabels_by_chars{$char};
+	}
+	return $keylabel;
+}
+
+my $result_file = shift;
+my %opts_by_chars;
+my @entries;
+my $min_indent = 0; # better name
+
+while (my ($opt_index, $opt_spec) = each(@ARGV)) {
+	my ($opt_name, $keyspecs_str, $opt_desc) = split(':', $opt_spec);
+
+	my $print_err = sub {
+		my ($prefix, $suffix) = @_;
+		say STDERR "$prefix at option spec. on index $opt_index: $suffix";
+	};
+
+	if ($opt_name eq '') {
+		$print_err->("ERROR", "empty option name");
+		next;
+	}
+	if (not defined $keyspecs_str or $keyspecs_str eq '') {
+		$print_err->("ERROR", "no keys");
+		next;
+	}
+
+	my @chars;
+
+	my @keyspecs = split(',', $keyspecs_str);
+	while (my ($keyspec_index, $keyspec) = each(@keyspecs)) {
+		next if $keyspec eq '';
+
+		my $c = get_char_by_keyspec($keyspec);
+
+		if (length($c) > 1) {
+			$print_err->("WARNING", "unrecognized key on index $keyspec_index");
+			next;
+		}
+
+		if (exists $opts_by_chars{$c}) {
+			my $other_opt_name = $opts_by_chars{$c};
+			$print_err->("WARNING", "key on index $keyspec_index is already bound to option '$other_opt_name'");
+		}
+		else {
+			push(@chars, $c);
+		}
+	}
+
+	unless (@chars) {
+		$print_err->("ERROR", "no keys");
+		next;
+	}
+
+	my $keys_str = join(',', map { get_keylabel_by_char($_) } @chars);
+	if (length($keys_str) > $min_indent) {
+		$min_indent = length($keys_str);
+	}
+
+	@opts_by_chars{@chars} = ($opt_name) x @chars;
+	push(@entries, [$keys_str, ($opt_desc or $opt_name)]);
+}
+
+unless (@entries) {
+	exit 1;
+}
+
+my $error;
+while (1) {
+	if ($error) {
+		say "ERROR: $error";
+		undef $error;
+	}
+
+	for (@entries) {
+		my ($keys, $opt) = @$_;
+		say '(', $keys, ')', ' ' x (1 + $min_indent - length($keys)), $opt;
+	}
+	print "Choice? ";
+
+	ReadMode('cbreak');
+	my $key = ReadKey(0);
+	ReadMode(0);
+	say('');
+
+	unless (defined $key) {
+		exit 1;
+	}
+
+	if (exists $opts_by_chars{$key}) {
+		open(my $outfh, '>', $result_file) or die $!;
+		say $outfh $opts_by_chars{$key};
+		close($outfh);
+		last;
+	}
+	else {
+		my $keylabel = get_keylabel_by_char($key);
+		$error = "key '$keylabel' is not bound";
+	}
+}
