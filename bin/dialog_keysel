@@ -4,8 +4,17 @@ use v5.16;
 use Term::ReadKey;
 
 unless (@ARGV >= 2) {
-	say STDERR "Usage: $0 result_file option_spec+";
-	say STDERR "  option_spec := name:key(,key)*(:desc)?";
+	print STDERR <<EOT;
+Usage: $0 result_file option_spec+
+  option_spec := name:key(,key)*(:desc)?
+Example:
+  urxvt -name ask_float -e $0 /tmp/result.txt \\
+    poweroff:p,7 \\
+    launch_foo:f,8:'Launch Foo' \\
+    launch_bar:b,9:'Lanch Bar' \\
+    more:comma:'More options' \\
+    close:esc,x
+EOT
 	exit 1;
 }
 
@@ -19,7 +28,7 @@ my %keylabels_by_chars = (
 # for key names usable on command line
 my %chars_by_keyspecs = (
 	'esc' => '',
-	'ret' => '',
+	'ret' => "\x{a}",
 	'comma' => ',',
 );
 
