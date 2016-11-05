@@ -52,7 +52,7 @@ sub get_keylabel_by_char($) {
 
 my $result_file = shift;
 my %opts_by_chars;
-my @entries;
+my @items;
 my $min_indent = 0; # better name
 
 while (my ($opt_index, $opt_spec) = each(@ARGV)) {
@@ -105,24 +105,28 @@ while (my ($opt_index, $opt_spec) = each(@ARGV)) {
 	}
 
 	@opts_by_chars{@chars} = ($opt_name) x @chars;
-	push(@entries, [$keys_str, ($opt_desc or $opt_name)]);
+	push(@items, [$keys_str, ($opt_desc or $opt_name)]);
 }
 
-unless (@entries) {
+unless (@items) {
 	exit 1;
 }
 
+my $items_text = '';
 my $error;
+
+for (@items) {
+	my ($keys, $opt) = @$_;
+	$items_text .= "($keys)" . (' ' x (1 + $min_indent - length($keys))) . "$opt\n";
+}
+
 while (1) {
 	if ($error) {
 		say "ERROR: $error";
 		undef $error;
 	}
 
-	for (@entries) {
-		my ($keys, $opt) = @$_;
-		say '(', $keys, ')', ' ' x (1 + $min_indent - length($keys)), $opt;
-	}
+	print $items_text;
 	print "Choice? ";
 
 	ReadMode('cbreak');
