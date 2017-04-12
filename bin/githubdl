@@ -1,0 +1,20 @@
+#!/usr/bin/env perl
+use warnings; use strict;
+
+sub usage { die "Usage: $0 {GitHub repo path URL} [svn export args...]\n" }
+
+my $url = shift @ARGV or usage();
+$url =~ m|^(https?://github.com/[^/]+/[^/]+)(?:/tree/([^/]+)(?:/(.*))?)?| or usage();
+my $repo = $1;
+my $tree = $2 || 'master';
+my $path = $3 || '';
+
+my @svndirs = $tree eq 'master' ? ('trunk') : ("tags/$tree", "branches/$tree");
+my $ret;
+for (@svndirs) {
+	my $cmd = "svn export --force $repo/$_/$path @ARGV";
+	print ">> $cmd\n";
+	$ret = system($cmd);
+	last if $ret == 0;
+}
+exit($ret >> 8);
