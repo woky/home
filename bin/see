@@ -15,7 +15,7 @@ error()
 	exit 1
 }
 
-unhandled() { error "No handler for $1 (in $PWD)" }
+unhandled() { error "No handler for $1" }
 
 arg=$1
 if [[ $arg =~ '^(\w+):' ]]; then
@@ -69,6 +69,9 @@ case $mime in
 	text/html)
 		exec ${=BROWSER:-firefox} $arg
 		;;
+	text/plain)
+		exec gedit --class=__floating $arg
+		;;
 esac
 
 case $arg:e:l in
@@ -83,4 +86,4 @@ case $arg:e:l in
 		;;
 esac
 
-unhandled $arg
+unhandled "$PWD/$arg ($mime)"

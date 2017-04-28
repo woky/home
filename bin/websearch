@@ -1,3 +1,5 @@
 #!/bin/zsh
+print "$@" | xclip
+print "$@" | xclip -selection clipboard
 q=$(print -n "$@"|perl -MURI::Escape::XS -ne 'print encodeURIComponent $_')
 xdg-open https://encrypted.google.com/search\?q=$q

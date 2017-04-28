@@ -56,7 +56,7 @@ my @items;
 my $min_indent = 0; # better name
 
 while (my ($opt_index, $opt_spec) = each(@ARGV)) {
-	my ($opt_name, $keyspecs_str, $opt_desc) = split(':', $opt_spec);
+	my ($opt_name, $keyspecs_str, $opt_desc) = split(':', $opt_spec, 3);
 
 	my $print_err = sub {
 		my ($prefix, $suffix) = @_;

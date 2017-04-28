@@ -13,6 +13,8 @@ Plug 'google/vim-searchindex'
 Plug 'vim-utils/vim-husk'
 Plug 'lyuts/vim-rtags'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 " }}}
 
@@ -58,6 +60,9 @@ let xml_syntax_folding=1
 
 let LatexBox_viewer='zathura'
 let LatexBox_quickfix=3
+let LatexBox_show_warnings=0
+"let LatexBox_build_dir='latexout'
+let LatexBox_latexmk_options='-outdir=latexout'
 " }}}
 
 " keys {{{
