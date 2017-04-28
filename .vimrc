@@ -1,6 +1,11 @@
 " vim:fdm=marker:
 se nocp
 
+if has("win32")
+	se rtp+=$HOME/.vim
+endif
+se ffs=unix,dos
+
 " plugins {{{
 call plug#begin('~/.vim.plugged')
 Plug 'LaTeX-Box-Team/LaTeX-Box'
