@@ -9,7 +9,7 @@ se ffs=unix,dos
 " plugins {{{
 call plug#begin('~/.vim.plugged')
 Plug 'LaTeX-Box-Team/LaTeX-Box'
-Plug 'dpc/vim-smarttabs'
+"Plug 'dpc/vim-smarttabs'
 Plug 'brookhong/cscope.vim'
 Plug 'peaksea'
 Plug 'scrooloose/nerdtree'
@@ -20,6 +20,10 @@ Plug 'lyuts/vim-rtags'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'rust-lang/rust.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
 call plug#end()
 " }}}
 
@@ -66,7 +70,7 @@ let xml_syntax_folding=1
 let LatexBox_viewer='zathura'
 let LatexBox_quickfix=3
 let LatexBox_show_warnings=0
-"let LatexBox_build_dir='latexout'
+let LatexBox_build_dir='latexout'
 let LatexBox_latexmk_options='-outdir=latexout'
 " }}}
 
