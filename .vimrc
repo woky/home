@@ -11,7 +11,7 @@ call plug#begin('~/.vim.plugged')
 Plug 'LaTeX-Box-Team/LaTeX-Box'
 "Plug 'dpc/vim-smarttabs'
 Plug 'brookhong/cscope.vim'
-Plug 'peaksea'
+Plug 'vim-scripts/peaksea'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
 Plug 'google/vim-searchindex'
@@ -24,6 +24,11 @@ Plug 'davidhalter/jedi-vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'skroll/Smart-Tabs'
 call plug#end()
 " }}}
 
@@ -132,6 +137,8 @@ vn  < <gv
 nn  <F1> :NERDTreeToggle<CR>
 nn  <S-F1> :exe 'NERDTree' getcwd()<CR>
 nn  <Leader>f :NERDTreeFind<CR>
+
+xm  ga <Plug>(EasyAlign)
 
 nn  <silent> <Leader>a :let &mouse= !empty(&mouse) ? '' : 'a'<CR>
 nn  Z :exe '!websearch ' . shellescape(expand('<cword>'), 1)<CR><CR>
