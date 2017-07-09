@@ -8,10 +8,9 @@ se ffs=unix,dos
 
 " plugins {{{
 call plug#begin('~/.vim.plugged')
-Plug 'LaTeX-Box-Team/LaTeX-Box'
-"Plug 'dpc/vim-smarttabs'
+Plug 'lervag/vimtex'
 Plug 'brookhong/cscope.vim'
-Plug 'peaksea'
+Plug 'vim-scripts/peaksea'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
 Plug 'google/vim-searchindex'
@@ -24,6 +23,11 @@ Plug 'davidhalter/jedi-vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+"Plug 'skroll/Smart-Tabs'
 call plug#end()
 " }}}
 
@@ -40,6 +44,7 @@ se nojoinspaces
 se tw=80
 se formatoptions+=j
 se bs=2
+se whichwrap+=h,l,<,>,[,]
 
 se nowrap
 se laststatus=2
@@ -67,11 +72,12 @@ let NERDTreeMinimalUI=1
 let perl_fold=1
 let xml_syntax_folding=1
 
-let LatexBox_viewer='zathura'
-let LatexBox_quickfix=3
-let LatexBox_show_warnings=0
-let LatexBox_build_dir='latexout'
-let LatexBox_latexmk_options='-outdir=latexout'
+let vimtex_quickfix_open_on_warning=0
+"let LatexBox_viewer='zathura'
+"let LatexBox_quickfix=3
+"let LatexBox_show_warnings=0
+"let LatexBox_build_dir='latexout'
+"let LatexBox_latexmk_options='-outdir=latexout'
 " }}}
 
 " keys {{{
@@ -133,9 +139,13 @@ nn  <F1> :NERDTreeToggle<CR>
 nn  <S-F1> :exe 'NERDTree' getcwd()<CR>
 nn  <Leader>f :NERDTreeFind<CR>
 
+xm  ga <Plug>(EasyAlign)
+
 nn  <silent> <Leader>a :let &mouse= !empty(&mouse) ? '' : 'a'<CR>
 nn  Z :exe '!websearch ' . shellescape(expand('<cword>'), 1)<CR><CR>
 nn  y :!echo %:p:S \| xclip<CR><CR>
+
+nn <F10> :q<CR>
 " }}}
 
 com! -bar SudoW sil exe "w !sudo tee % >/dev/null" | sil e!

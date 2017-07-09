@@ -72,6 +72,9 @@ case $mime in
 	text/plain)
 		exec gedit --class=__floating $arg
 		;;
+	inode/directory)
+		exec nautilus $arg
+		;;
 esac
 
 case $arg:e:l in

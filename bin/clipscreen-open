@@ -1,2 +1,2 @@
 #!/bin/zsh
-feh =(maim -s --format=png /dev/stdout)
+feh =(shot -i -o /dev/stdout)
