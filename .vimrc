@@ -17,7 +17,6 @@ Plug 'google/vim-searchindex'
 Plug 'vim-utils/vim-husk'
 Plug 'lyuts/vim-rtags'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'tpope/vim-fugitive'
 Plug 'rust-lang/rust.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'tommcdo/vim-exchange'
@@ -135,11 +134,14 @@ nn  > >>
 vn  > >gv
 vn  < <gv
 
+vm  y ygv<Esc>
+
 nn  <F1> :NERDTreeToggle<CR>
 nn  <S-F1> :exe 'NERDTree' getcwd()<CR>
 nn  <Leader>f :NERDTreeFind<CR>
 
-xm  ga <Plug>(EasyAlign)
+vm  X <Plug>(Exchange)gv<Esc>
+vm  ga <Plug>(EasyAlign)
 
 nn  <silent> <Leader>a :let &mouse= !empty(&mouse) ? '' : 'a'<CR>
 nn  Z :exe '!websearch ' . shellescape(expand('<cword>'), 1)<CR><CR>
