@@ -26,6 +26,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+"Plug 'easymotion/vim-easymotion'
 "Plug 'skroll/Smart-Tabs'
 call plug#end()
 " }}}
@@ -56,6 +57,8 @@ se cursorline
 se hls
 se incsearch
 se foldlevelstart=99
+se splitbelow
+se splitright
 
 se ml
 se hi=1000
