@@ -28,6 +28,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 "Plug 'easymotion/vim-easymotion'
 "Plug 'skroll/Smart-Tabs'
+"Plug 'vim-scripts/vis'
 call plug#end()
 " }}}
 
