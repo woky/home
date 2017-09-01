@@ -13,3 +13,5 @@ map <PageDown> scroll full-down
 map [ navigate previous
 map ] navigate next
 map i recolor
+map <F9> feedkeys ":exec okular $FILE<Return>"
+map <F10> feedkeys ":exec acroread $FILE<Return>"

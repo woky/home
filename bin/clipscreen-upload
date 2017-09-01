@@ -1,5 +1,5 @@
 #!/bin/zsh
-if maim -s --format=png /dev/stdout | imgur; then
+if shot -i -o /dev/stdout | imgur; then
 	notify-send "imgur upload has finished"
 else
 	notify-send "imgur upload has failed"
