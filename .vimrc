@@ -80,6 +80,12 @@ let xml_syntax_folding=1
 let vimtex_quickfix_open_on_warning=0
 
 let g:ackprg='rg --vimgrep'
+
+let g:lightline = {
+\	'component': {
+\		'lineinfo': "%3l:%-2v/%{line('$')}",
+\	},
+\}
 " }}}
 
 " keys {{{
@@ -116,7 +122,7 @@ nn  <C-l> <C-W>l
 
 nn  <F5> :bp<CR>
 nn  <F6> :bn<CR>
-nn  <F2> :ls<CR>:b 
+nn  <F2> :Buffers<CR>
 
 nn  <C-PageUp> gT
 nn  <C-PageDown> gt
