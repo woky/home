@@ -4,7 +4,6 @@ se nocp
 if has("win32")
 	se rtp+=$HOME/.vim
 endif
-se ffs=unix,dos
 
 " plugins {{{
 call plug#begin('~/.vim.plugged')
@@ -26,6 +25,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'mileszs/ack.vim'
 "Plug 'easymotion/vim-easymotion'
 "Plug 'skroll/Smart-Tabs'
 "Plug 'vim-scripts/vis'
@@ -76,11 +76,8 @@ let perl_fold=1
 let xml_syntax_folding=1
 
 let vimtex_quickfix_open_on_warning=0
-"let LatexBox_viewer='zathura'
-"let LatexBox_quickfix=3
-"let LatexBox_show_warnings=0
-"let LatexBox_build_dir='latexout'
-"let LatexBox_latexmk_options='-outdir=latexout'
+
+let g:ackprg='rg --vimgrep'
 " }}}
 
 " keys {{{
@@ -132,6 +129,7 @@ im  <F5>    <C-o><Space>p
 im  <S-F5>  <C-o><Space>o
 
 nn  <F9> :make<CR>
+nn  <Leader>c :ccl<CR>
 
 nn  < <<
 nn  > >>
