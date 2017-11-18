@@ -1,0 +1,158 @@
+#!/bin/zsh
+
+SUDO=sudo
+
+prog=$0
+
+usage()
+{
+	cat >&2 <<EOF
+Encrypted container utility.
+Usage: $prog init|open|close
+
+  init FILE SIZE
+    Creates a vault in file FILE - ext4 filesystem in LUKS encrypted
+    file - of size SIZE (accepts suffixed numbers like head, eg. 50M).
+    FILE must not exist.
+
+  open FILE MOUNTDIR
+    Mounts vault in file FILE to directory MOUNTDIR.
+
+  close MOUNTDIR
+    Unmounts the mountpoint at MOUNTPOINT and closes the LUKS device
+    of the associated vault if it was the last mountpoint.
+
+  close FILE
+    Unmounts all mountpoints associated with the vault in file FILE
+    and closes its LUKS device.
+
+  list
+    List opened vaults.
+
+Example:
+  $prog init vault.img 50M
+  mkdir openvault
+  $prog open vault.img openvault
+  $prog close openvault
+EOF
+	exit 1
+}
+
+dmname()
+{
+	echo -n vault-
+	echo $(realpath $1) | sha256sum | awk '{print $1}'
+}
+
+init()
+{
+	[[ $# -eq 2 ]] || usage
+	if [[ -e $1 ]]; then
+		echo "Will not overwrite existing file" >&2
+		return 1
+	fi
+	head -c $2 </dev/zero >$1
+	cryptsetup luksFormat $1
+	name=$(dmname $1)
+	ret=0
+	echo "Type same password for the third time."
+	$SUDO cryptsetup open $1 $name && {
+		$SUDO mkfs.ext4 /dev/mapper/$name && {
+			tmpmnt=$(mktemp -d)
+			$SUDO mount /dev/mapper/$name $tmpmnt && {
+				$SUDO chown $(id -un):$(id -gn) $tmpmnt || ret=$?
+				$SUDO umount $tmpmnt || true
+			}
+			rm -r $tmpmnt
+		} || ret=$?
+		$SUDO cryptsetup close $name || true
+	} || ret=$?
+	if [[ $ret -ne 0 ]]; then
+		rm $1
+	fi
+	return $ret
+}
+
+open()
+{
+	[[ $# -eq 2 ]] || usage
+	if [[ ! -f $1 ]]; then
+		echo "Not a vault" >&2
+		return 1
+	fi
+	name=$(dmname $1)
+	newmount=0
+	if [[ ! -e /dev/mapper/$name ]]; then
+		$SUDO cryptsetup open $1 $name || return $?
+		newmount=1
+	fi
+	$SUDO mount /dev/mapper/$name $2
+	ret=$?
+	if [[ $ret -ne 0 && $newmount -eq 1 ]]; then
+		$SUDO cryptsetup close $name
+	fi
+	return $ret
+}
+
+close()
+{
+	[[ $# -eq 1 ]] || usage
+	if [[ -d $1 ]]; then
+		dev=$(findmnt -nr -o source -T $1)
+		if [[ $? -ne 0 ]]; then
+			echo "Not a mountpoint"
+			return 1
+		fi
+		name=${dev#/dev/mapper/}
+		if [[ ! $name =~ ^vault- ]]; then
+			echo "Not a vault mountpoint"
+			return 1
+		fi
+		$SUDO umount $1
+		ret=$?
+		if [[ $ret -ne 0 ]]; then
+			return $ret
+		fi
+		if ! findmnt -nr -o target -S /dev/mapper/$name >/dev/null; then
+			$SUDO cryptsetup close $name
+		fi
+	elif [[ -f $1 ]]; then
+		name=$(dmname $1)
+		ret=0
+		for mnt in $(findmnt -nr -o target -S /dev/mapper/$name); do
+			$SUDO umount $mnt || ret=$?
+		done
+		if [[ $ret -ne 0 ]]; then
+			return $ret
+		fi
+		if [[ ! -e /dev/mapper/$name ]]; then
+			echo "Vault not opened" >&2
+			return 1
+		fi
+		$SUDO cryptsetup close $name
+	else
+		echo "Not a vault" >&2
+		return 1
+	fi
+}
+
+list()
+{
+	{ findmnt -nr -o source,target -S /dev/mapper/vault-* |\
+		while IFS=' ' read src target; do # no spaces allowed
+			img=$($SUDO cryptsetup status $src | grep loop: | awk '{print $2}')
+			if [[ -n $img ]]; then
+				print $img $target
+			fi
+		done } | column -t -N VAULT,MOUNTPOINT
+}
+
+op=$1
+[[ $# -gt 0 ]] && shift
+case $op in
+	init)  init  "$@" ;;
+	open)  open  "$@" ;;
+	close) close "$@" ;;
+	list)  list  "$@" ;;
+	*) usage ;;
+esac
