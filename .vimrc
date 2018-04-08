@@ -7,20 +7,20 @@ endif
 
 " plugins {{{
 call plug#begin('~/.vim.plugged')
-Plug 'lervag/vimtex'
-Plug 'brookhong/cscope.vim'
+" look & feel {{{
 Plug 'vim-scripts/peaksea'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
-Plug 'google/vim-searchindex'
+Plug 'mhartington/oceanic-next'
+" }}}
+" general {{{
 Plug 'vim-utils/vim-husk'
-"Plug 'lyuts/vim-rtags' " uses vim python2
+Plug 'google/vim-searchindex'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'lyuts/vim-rtags'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'rust-lang/rust.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-fugitive'
@@ -28,9 +28,22 @@ Plug 'airblade/vim-gitgutter'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
 Plug '~/src/fzf'
+"Plug 'embear/vim-localvimrc'
 "Plug 'easymotion/vim-easymotion'
 "Plug 'skroll/Smart-Tabs'
 "Plug 'vim-scripts/vis'
+" }}}
+" languages {{{
+Plug 'lervag/vimtex'
+Plug 'pangloss/vim-javascript'
+"Plug 'othree/yajs.vim'
+"Plug 'othree/es.next.syntax.vim'
+Plug 'othree/html5.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
+Plug 'rust-lang/rust.vim'
+"Plug 'brookhong/cscope.vim'
+" }}}
 call plug#end()
 " }}}
 
@@ -46,7 +59,7 @@ se ai
 se nojoinspaces
 se tw=80
 se formatoptions+=j
-se bs=2
+se backspace=2
 se whichwrap+=h,l,<,>,[,]
 
 se nowrap
@@ -138,6 +151,7 @@ im  <S-F5>  <C-o><Space>o
 
 nn  <F9> :make<CR>
 nn  <Leader>c :ccl<CR>
+nn  <Leader>e :!chmod +x %<CR>:e<CR>
 
 nn  < <<
 nn  > >>
@@ -163,9 +177,13 @@ nn <F10> :q<CR>
 com! -bar SudoW sil exe "w !sudo tee % >/dev/null" | sil e!
 
 " colorz {{{
-se t_Co=256
 se bg=dark
+se t_Co=256
+if (has("termguicolors"))
+	set termguicolors
+endif
 color peaksea
+"colorscheme OceanicNext
 hi Normal ctermfg=252 ctermbg=NONE cterm=NONE
 hi NonText ctermfg=18 ctermbg=NONE cterm=NONE
 hi CursorLine ctermbg=234 cterm=NONE
