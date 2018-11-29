@@ -1,0 +1,5 @@
+#!/usr/bin/pulseaudio -nF
+
+.include /etc/pulse/default.pa
+unload-module module-udev-detect
+load-module module-detect

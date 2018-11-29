@@ -14,7 +14,7 @@ Plug 'mhartington/oceanic-next'
 " general {{{
 Plug 'vim-utils/vim-husk'
 Plug 'google/vim-searchindex'
-Plug 'itchyny/lightline.vim'
+"Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'lyuts/vim-rtags'
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -22,7 +22,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
-Plug 'ntpeters/vim-better-whitespace'
+"Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'mileszs/ack.vim'
@@ -38,11 +38,17 @@ Plug 'lervag/vimtex'
 Plug 'pangloss/vim-javascript'
 "Plug 'othree/yajs.vim'
 "Plug 'othree/es.next.syntax.vim'
+Plug 'neoclide/vim-jsx-improve'
 Plug 'othree/html5.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'vim-perl/vim-perl', { 'do': 'make clean carp highlight-all-pragmas' }
 Plug 'rust-lang/rust.vim'
 "Plug 'brookhong/cscope.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'google/vim-jsonnet'
+Plug 'jremmen/vim-ripgrep'
+Plug 'tpope/vim-eunuch'
+Plug 'pearofducks/ansible-vim'
 " }}}
 call plug#end()
 " }}}
@@ -56,6 +62,7 @@ ru! ftplugin/man.vim
 se ts=4
 se sw=4
 se ai
+se shiftround " sr
 se nojoinspaces
 se tw=80
 se formatoptions+=j
@@ -65,6 +72,7 @@ se whichwrap+=h,l,<,>,[,]
 se nowrap
 se laststatus=2
 se showcmd
+se shortmess=aI
 se wmnu
 se wim=list:longest,full
 se nu
@@ -86,6 +94,8 @@ se mouse=a
 " variables {{{
 let NERDTreeChDirMode=2
 let NERDTreeMinimalUI=1
+let NERDTreeShowLineNumbers=1
+let NERDTreeMouseMode=3
 
 let perl_fold=1
 let xml_syntax_folding=1
@@ -100,6 +110,8 @@ let g:lightline = {
 \	},
 \}
 " }}}
+
+let g:jsonnet_fmt_on_save = 0
 
 " keys {{{
 let mapleader='\'
@@ -127,15 +139,19 @@ nn  <C-s> :update<CR>
 im  <C-s> <C-o><C-s>
 nn  \\ :e<CR>
 nn  <Leader>d :lcd %:p:h<CR>:pwd<CR>
+nn  <leader>q :q<CR>
+nn  <leader>wq :x<CR>
 
 nn  <C-h> <C-W>h
 nn  <C-j> <C-W>j
 nn  <C-k> <C-W>k
 nn  <C-l> <C-W>l
 
-nn  <F5> :bp<CR>
-nn  <F6> :bn<CR>
-nn  <F2> :Buffers<CR>
+nn <F5>       :bp<CR>
+nn <F6>       :bn<CR>
+nn <F2>       :Buffers<CR>
+nn <leader>xx :hide<cr>
+nn <leader>xs :bd<cr>
 
 nn  <C-PageUp> gT
 nn  <C-PageDown> gt
@@ -171,7 +187,7 @@ nn  <silent> <Leader>a :let &mouse= !empty(&mouse) ? '' : 'a'<CR>
 nn  Z :exe '!websearch ' . shellescape(expand('<cword>'), 1)<CR><CR>
 nn  y :!echo %:p:S \| xclip<CR><CR>
 
-nn <F10> :q<CR>
+nn  <F10> :make<CR>
 " }}}
 
 com! -bar SudoW sil exe "w !sudo tee % >/dev/null" | sil e!

@@ -1,0 +1,28 @@
+[user]
+	name = Tomáš Virtus
+	email = nechtom@gmail.com
+	signingkey = "156DF123759E7484D48AD8F603B8C33785342442"
+[commit]
+	gpgsign = yes
+[alias]
+	ci = commit
+	b = branch
+	co = checkout
+	s = status -sb
+	st = status
+	lns = log --name-status
+	d = difftool
+	ciem = commit --allow-empty-message -m ''
+	cl = clone
+	wdiff = diff --color-words
+	wshow = show --color-words
+[core]
+	excludesfile = ~/.gitignore.global
+[pull]
+	rebase = true
+[push]
+	default = current
+[includeIf "gitdir:~/work/rchain/"]
+	path = ~/work/rchain/gitconfig
+[includeIf "gitdir:~/work/kontron/"]
+	path = ~/work/kontron/gitconfig

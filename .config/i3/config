@@ -1,0 +1,151 @@
+set $mod Mod4
+
+floating_modifier $mod
+
+######################################################################
+
+bindsym $mod+Return            exec xfce4-terminal
+bindsym $mod+grave             exec xfce4-terminal --drop-down
+
+bindsym $mod+d                 exec ~/bin/rofi-run
+bindsym $mod+Shift+u           exec ~/bin/rofi-actions
+bindsym $mod+Control+p         exec ~/bin/rofi-pass --last-used
+
+bindsym $mod+Mod1+l            exec zsh -c lockscreen
+
+bindsym $mod+g                 exec copyq toggle
+bindsym $mod+Shift+o           exec spectacle
+bindsym $mod+x                 exec zsh -c 'popupterm ~/misc/libexec/dict-encz'
+
+bindsym $mod+Shift+p           exec nemo
+bindsym $mod+Control+Shift+p   exec nautilus
+bindsym $mod+Control+d         exec gnome-disks
+
+bindsym $mod+Control+s         exec pavucontrol
+bindsym $mod+F10               exec deadbeef --toggle-pause
+
+######################################################################
+
+for_window [window_role="pop-up"] floating enable
+for_window [class="popup"] floating enable
+
+for_window [instance="floating"] floating enable
+for_window [title="i3_make_float"] floating enable
+
+for_window [class="copyq"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="zoom"] floating enable
+
+######################################################################
+
+workspace_layout tabbed
+font pango:monospace 8
+
+bar
+{
+	position top
+	status_command py3status -c ~/.config/i3/i3status.conf
+}
+
+######################################################################
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec i3-nagbar -t warning -m 'Exit i3?' -b Yes 'i3-msg exit'
+
+bindsym $mod+Shift+q kill
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+a focus left
+bindsym $mod+Shift+d focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Control+a move left
+bindsym $mod+Shift+Control+d move right
+
+bindsym $mod+b split h
+bindsym $mod+v split v
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+t layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+bindsym $mod+s focus child
+
+######################################################################
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+Control+1 workspace 11
+bindsym $mod+Control+2 workspace 12
+bindsym $mod+Control+3 workspace 13
+bindsym $mod+Control+4 workspace 14
+bindsym $mod+Control+5 workspace 15
+bindsym $mod+Control+6 workspace 16
+bindsym $mod+Control+7 workspace 17
+bindsym $mod+Control+8 workspace 18
+bindsym $mod+Control+9 workspace 19
+bindsym $mod+Control+0 workspace 20
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Control+Shift+1 move container to workspace 11
+bindsym $mod+Control+Shift+2 move container to workspace 12
+bindsym $mod+Control+Shift+3 move container to workspace 13
+bindsym $mod+Control+Shift+4 move container to workspace 14
+bindsym $mod+Control+Shift+5 move container to workspace 15
+bindsym $mod+Control+Shift+6 move container to workspace 16
+bindsym $mod+Control+Shift+7 move container to workspace 17
+bindsym $mod+Control+Shift+8 move container to workspace 18
+bindsym $mod+Control+Shift+9 move container to workspace 19
+bindsym $mod+Control+Shift+0 move container to workspace 20
+
+######################################################################
+
+bindsym $mod+r mode resize
+
+mode resize
+{
+        bindsym h resize shrink width  5 px or 5 ppt
+        bindsym j resize grow   height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow   width  5 px or 5 ppt
+
+        bindsym Shift+h resize shrink width  1 px or 1 ppt
+        bindsym Shift+j resize grow   height 1 px or 1 ppt
+        bindsym Shift+k resize shrink height 1 px or 1 ppt
+        bindsym Shift+l resize grow   width  1 px or 1 ppt
+
+        bindsym Return mode default
+        bindsym Escape mode default
+}

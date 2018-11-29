@@ -1,0 +1,7 @@
+#!/bin/zsh -e
+remote=${1-upstream}
+branch=$(git rev-parse --abbrev-ref HEAD)
+logexe() { echo "> $@"; "$@" }
+logexe git fetch $remote
+logexe git rebase $remote/$branch
+logexe git push

@@ -1,0 +1,97 @@
+# vim:ft=zsh:
+
+alias ls='ls -v --color=auto'
+alias l=ls
+alias l1='ls -1'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lld='ls -ld'
+alias llt='ls -ltr'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+
+mkcd() { mkdir -p "$1" && cd "$1" }
+
+hs() { fc -lLdD "${@:--10}" }
+
+alias g=egrep
+
+alias diff='diff -u'
+alias diffc='diff --color=always'
+
+alias pstree='pstree -lU'
+alias free='free -h'
+alias dmesg='dmesg -H'
+
+alias vim='vim --servername vim'
+
+alias gpg='gpg --no-greeting --allow-freeform-uid'
+alias mc='. /usr/lib/mc/mc-wrapper.sh'
+alias bc='bc -ql ~/.bcrc'
+alias octave='octave-cli -q'
+alias oc=octave
+alias gdb='gdb -q'
+
+alias perl='perl -Mv5.26'
+
+alias urienc="perl -MURI::Escape -e '"'say uri_escape($ARGV[0])'"'"
+alias uridec="perl -MURI::Escape -e '"'say uri_unescape($ARGV[0])'"'"
+
+alias sul='sudo -iu'
+alias mimeof='file -Lb --mime-type'
+alias wgetr='wget -r -np -nd -nH'
+alias xlsblk='lsblk -o name,size,fsuse%,fstype,mountpoint,label,partlabel,vendor,model,serial'
+alias mklo='sudo losetup -rPf --show'
+
+randint() { shuf -n1 -i${2:-0}-${1:-65535} }
+randalnum() { tr -Cd ${2:-A-Za-z0-9} </dev/urandom | head -c ${1:-16}; echo }
+randlcalnum() { tr -Cd a-z0-9 </dev/urandom | tr -d 1bio | head -c ${1:-16}; echo }
+
+psg()
+{
+	local pids=($(pgrep -if "$@"))
+	if [[ -z $pids ]]; then
+		return 1
+	fi
+	ps -f $pids
+}
+
+hex2bin() { echo -n 0x$1 | xxd -r | xxd -b }
+ 
+if ! command -V pv >/dev/null; then
+	alias pv=cat
+fi
+
+cptodisk() { pv "$1" | sudo dd of="$2" }
+
+docker-cls()
+{
+	docker ps --format "table {{.Image}}\t{{.ID}}\t{{.Names}}\t{{.Status}}" "$@"
+}
+
+docker-cpid()
+{
+	docker inspect -f '{{.State.Pid}}' $1
+}
+
+docker-croot()
+{
+	echo /proc/$(docker-cpid $1)/root
+}
+
+docker-center()
+{
+	local c=$1
+	local pid=$(docker-cpid $c)
+	local root=$(docker-croot $c)
+	sudo nsenter -t $pid -n -p $SHELL -c "cd $root && exec $SHELL -i"
+}
+
+ixio() { curl -F 'f:1=<-' ix.io }
+sprunge() { curl -F 'sprunge=<-' http://sprunge.us }

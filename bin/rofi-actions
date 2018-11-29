@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+typeset -A actions
+actions=(
+	'Generate QR code from clipboard'
+	'(xsel; echo; xsel -b; echo) | popupqr'
+)
+
+choice=$(
+	print -l ${(k)actions} |
+	rofi -dmenu -i -fuzzy -p 'Action')
+
+if [[ -z $choice ]]; then
+	exit 1
+fi
+
+cmd=$actions[$choice]
+
+if [[ -z $cmd ]]; then
+	exit 1
+fi
+
+eval $cmd

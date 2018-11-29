@@ -1,0 +1,35 @@
+# vim:ft=zsh:
+
+popupterm()
+{
+	urxvt -name floating -e $SHELL -c "$@"
+}
+
+popupqr()
+{
+	qrencode --size 10 -o - | feh --title i3_make_float -x -
+}
+
+alias lockscreen='i3lock -n -c 000000'
+
+gotosleep()
+{
+	lockscreen &
+	sleep 5
+	systemctl suspend -i
+}
+
+alias evolution='GSETTINGS_SCHEMA_DIR=~/local/share/glib-2.0 evolution'
+
+chromeprof()
+{
+	local prof=${1:-default}
+	local exe=$(whence chromium google-chrome | tail -1)
+
+	if [[ -z $exe ]]; then
+		echo "Chromium/Google Chrome not in PATH" >&2
+		return 1
+	fi
+
+	$exe --user-data-dir=$HOME/misc/chrome-profiles/$1
+}

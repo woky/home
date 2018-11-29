@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+curl -s https://api.cryptowat.ch/markets/prices | jq '.result |
+	."bitstamp:btcusd",
+	."bitstamp:bchusd",
+	."bitstamp:ethbtc",
+	."bittrex:xmrbtc",
+	."bittrex:usdtusd"
+	' | read -d '' -A prices
+
+printf "BTC $%.0f BCH $%.0f ETH %.3fɃ XMR %.3fɃ USDT $%.2f\n" $prices

@@ -1,0 +1,19 @@
+#!/bin/zsh -e
+
+timezones=(
+	UTC
+	Europe/Prague
+	US/Mountain
+	US/Pacific
+)
+
+date_format="%H:%M %a %e %b|%:z"
+
+export LC_ALL=en_US.utf-8
+
+for tz in $timezones
+do
+	print -n $tz '|'
+    TZ=/usr/share/zoneinfo/$tz date +$date_format
+done |\
+	column -t -s '|'

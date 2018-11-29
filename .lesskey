@@ -1,3 +1,5 @@
 #command
 h left-scroll
 l right-scroll
+\e[15~ prev-file
+\e[17~ next-file

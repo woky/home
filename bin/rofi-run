@@ -1,0 +1,4 @@
+#!/bin/sh
+exec rofi -show run \
+	-run-list-command ~/misc/libexec/list-run-commands \
+	-run-command "/bin/zsh -c '{cmd}'"
