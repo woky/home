@@ -1,2 +1,9 @@
+setlocal expandtab
+setlocal tabstop=4
+
 "compiler python
-nn  <F10> :w !python3<CR>
+
+nnoremap <F10> :w !python3<CR>
+nnoremap <Leader>y :!yapf -i %<CR>:!isort %<CR>
+
+packadd jedi-vim

@@ -1,0 +1,54 @@
+[submodule ".vim/pack/bundle/start/nerdtree"]
+	path = .vim/pack/bundle/opt/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule ".vim/pack/bundle/opt/peaksea"]
+	path = .vim/pack/bundle/opt/peaksea
+	url = https://github.com/vim-scripts/peaksea
+[submodule ".vim/pack/bundle/start/vim-husk"]
+	path = .vim/pack/bundle/start/vim-husk
+	url = https://github.com/vim-utils/vim-husk
+[submodule ".vim/pack/bundle/start/vim-searchindex"]
+	path = .vim/pack/bundle/opt/vim-searchindex
+	url = https://github.com/google/vim-searchindex
+[submodule ".vim/pack/bundle/start/vim-eunuch"]
+	path = .vim/pack/bundle/start/vim-eunuch
+	url = https://github.com/tpope/vim-eunuch
+[submodule ".vim/pack/bundle/start/fzf.vim"]
+	path = .vim/pack/bundle/opt/fzf.vim
+	url = https://github.com/junegunn/fzf.vim
+[submodule ".vim/pack/bundle/start/vim-surround"]
+	path = .vim/pack/bundle/opt/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule ".vim/pack/bundle/start/vim-repeat"]
+	path = .vim/pack/bundle/opt/vim-repeat
+	url = https://github.com/tpope/vim-repeat
+[submodule ".vim/pack/bundle/start/vim-fugitive"]
+	path = .vim/pack/bundle/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule ".vim/pack/bundle/start/vim-gitgutter"]
+	path = .vim/pack/bundle/opt/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule ".vim/pack/bundle/start/vim-open-github"]
+	path = .vim/pack/bundle/opt/vim-open-github
+	url = https://github.com/k0kubun/vim-open-github
+[submodule ".vim/pack/bundle/start/editorconfig-vim"]
+	path = .vim/pack/bundle/opt/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim
+[submodule ".vim/pack/bundle/start/jedi-vim"]
+	path = .vim/pack/bundle/opt/jedi-vim
+	url = https://github.com/davidhalter/jedi-vim.git
+[submodule ".vim/pack/bundle/start/vim-unimpaired"]
+	path = .vim/pack/bundle/opt/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired
+[submodule ".vim/pack/bundle/start/vim-startuptime"]
+	path = .vim/pack/bundle/opt/vim-startuptime
+	url = https://github.com/dstein64/vim-startuptime
+[submodule ".vim/pack/bundle/opt/asyncomplete.vim"]
+	path = .vim/pack/bundle/opt/asyncomplete.vim
+	url = https://github.com/prabirshrestha/asyncomplete.vim
+[submodule ".vim/pack/bundle/opt/vim-lsp"]
+	path = .vim/pack/bundle/opt/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp
+[submodule ".vim/pack/bundle/opt/asyncomplete-lsp.vim"]
+	path = .vim/pack/bundle/opt/asyncomplete-lsp.vim
+	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim

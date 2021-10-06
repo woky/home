@@ -1,5 +1,11 @@
-setl fdm=syntax
-setl cino=(0,u0,U0
-nm <C-]> <Leader>rj
-nm <C-p> <Leader>rp
-nm <C-\> <Leader>rf
+setlocal foldmethod=syntax
+setlocal cindent
+setlocal cinoptions=(0,u0,U0
+
+"nmap <C-]> <Leader>rj
+"nmap <C-p> <Leader>rp
+"nmap <C-\> <Leader>rf
+
+packadd asyncomplete.vim
+packadd vim-lsp
+packadd asyncomplete-lsp.vim
