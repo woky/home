@@ -52,3 +52,9 @@
 [submodule ".vim/pack/bundle/opt/asyncomplete-lsp.vim"]
 	path = .vim/pack/bundle/opt/asyncomplete-lsp.vim
 	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim
+[submodule ".vim/pack/bundle/opt/fzf"]
+	path = .vim/pack/bundle/opt/fzf
+	url = https://github.com/junegunn/fzf.vim
+[submodule ".vim/pack/bundle/.vim/pack/bundle/opt/fzf"]
+	path = .vim/pack/bundle/opt/fzf
+	url = https://github.com/junegunn/fzf

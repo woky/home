@@ -145,6 +145,7 @@ let terraform_fmt_on_save=0
 let vimtex_quickfix_open_on_warning=0
 let xml_syntax_folding=1
 
+packadd fzf
 packadd fzf.vim
 packadd vim-gitgutter
 packadd vim-open-github
