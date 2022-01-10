@@ -58,3 +58,6 @@
 [submodule ".vim/pack/bundle/.vim/pack/bundle/opt/fzf"]
 	path = .vim/pack/bundle/opt/fzf
 	url = https://github.com/junegunn/fzf
+[submodule ".vim/pack/bundle/start/vim-terraform"]
+	path = .vim/pack/bundle/start/vim-terraform
+	url = https://github.com/hashivim/vim-terraform.git
