@@ -7,36 +7,52 @@ endif
 
 " OPTIONS {{{
 
-set autoindent
-set autoread
-set backspace=2
-set confirm
-set cursorline
-set foldlevelstart=99
-set formatoptions+=j
-set hidden
-set history=1000
-set hlsearch
-set incsearch
-set laststatus=2
-set modeline
-set mouse=a
-set noequalalways
+" editing
+set tabstop=8
+set shiftwidth=8
+set shiftround
 set nojoinspaces
-set nowrap
+set backspace=2
+set autoindent
+set whichwrap+=h,l,<,>,[,]
+set formatoptions+=j
+
+" buffer
+set autoread
+set confirm
+set hidden
+set foldmethod=indent
+set foldlevel=99
+set foldlevelstart=99
+
+" appearance
 set number
 set relativenumber
-set shiftround
-set shiftwidth=4
-set shortmess=aI
+set nowrap
+"set cursorline
 set showcmd
-set splitbelow
-set splitright
-set tabstop=4
-set textwidth=80
-set whichwrap+=h,l,<,>,[,]
+set laststatus=2
+
+" search
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" cmdline
 set wildmenu
 set wildmode=list:longest,full
+
+" windows
+set splitbelow
+set splitright
+set noequalalways
+
+" behaviour
+set modeline
+set mouse=a
+set history=1000
+"set shortmess=aI
 
 " }}}
 
@@ -66,6 +82,7 @@ nnoremap <F10> :make<CR>
 
 nnoremap <Leader>a :e %:h/
 nnoremap <Leader>c :ccl<CR>
+nnoremap <Leader>l :lcl<CR>
 nnoremap <Leader>d :lcd %:p:h<CR>:pwd<CR>
 nnoremap <Leader>e :!chmod +x %<CR>:e<CR>
 nnoremap <Leader>m :let &mouse= !empty(&mouse) ? '' : 'a'<CR>:set mouse?<CR>
@@ -106,7 +123,7 @@ nnoremap <Leader>f  :packadd nerdtree \| :NERDTreeFind<CR>
 
 " COMMANDS {{{
 
-com! -bar SudoW silent exe "w !sudo tee % >/dev/null"
+com! -bar SudoW silent exe "w !sudo tee % >/dev/null" | silent e!
 
 " }}}
 
@@ -122,8 +139,8 @@ syntax on
 set bg=dark
 color peaksea
 
-hi Normal ctermfg=252 ctermbg=NONE cterm=NONE
-hi NonText ctermfg=18 ctermbg=NONE cterm=NONE
+"hi Normal ctermfg=252 ctermbg=NONE cterm=NONE
+"hi NonText ctermfg=18 ctermbg=NONE cterm=NONE
 hi CursorLine ctermbg=234 cterm=NONE
 
 " }}}
@@ -154,6 +171,8 @@ packadd vim-searchindex
 "packadd vim-startuptime
 packadd vim-surround
 "packadd vim-unimpaired
+packadd jedi-vim
+packadd vim-go
 
 " }}}
 
